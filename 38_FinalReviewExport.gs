@@ -38,7 +38,9 @@ function getFinalReviewSources() {
 function getFinalReviewData(sourceSheetName) {
   const selectedSheet = resolveFinalReviewSheetName_(sourceSheetName);
   const snapshot = buildFinalInventorySnapshot_(selectedSheet);
-  const activeCatalogCount = buildProductCatalogUncached_().length;
+  const activeCatalogCount = Number(
+    snapshot.diagnostics && snapshot.diagnostics.activeCatalogCount
+  ) || 0;
   if (activeCatalogCount > 0 && (!snapshot.items || !snapshot.items.length)) {
     throw new Error(
       'BŁĄD KRYTYCZNY RAPORTU: aktywny katalog zawiera ' + activeCatalogCount +
@@ -56,13 +58,8 @@ function getFinalReviewData(sourceSheetName) {
 
   return {
     version: CONFIG.VERSION,
-    releaseSignature: 'FINAL_REPORT_RUNTIME_GUARD_545',
-    diagnostics: {
-      activeCatalogCount: activeCatalogCount,
-      reportItemsCount: snapshot.items.length,
-      sourceLastRow: SpreadsheetApp.getActiveSpreadsheet()
-        .getSheetByName(selectedSheet).getLastRow()
-    },
+    releaseSignature: 'FINAL_REPORT_FAST_CATALOG_546',
+    diagnostics: snapshot.diagnostics,
     sourceSheetName: selectedSheet,
     isCurrentInventory: isConfiguredSheetName_(selectedSheet, CONFIG.SHEETS.INVENTORY),
     sessionId: session.id,
@@ -361,7 +358,8 @@ function buildFinalInventorySnapshot_(sourceSheetName) {
     summary: report.summary,
     validationIssues: report.validationIssues,
     statistics: report.statistics,
-    metadata: report.metadata
+    metadata: report.metadata,
+    diagnostics: report.diagnostics
   };
 }
 
