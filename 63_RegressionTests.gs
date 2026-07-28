@@ -48,14 +48,16 @@ function runAllEnterpriseTests() {
     testGeminiLosslessPrompt500_,
     testMobileResolverAliases500_,
     testAudioProcessorTriggerDeduplication513_,
+    testAudioPipelineRecovery514_,
+    testInventoryStatusColorLifecycle514_,
     testGeminiTransientRetry500_,
     testClosedBusinessCategories284_,
-    testPawilonyLayoutContract432_,
-    testPawilonyLocationMapping432_,
+    testVenueLayoutContract432_,
+    testVenueLocationMapping432_,
     testGenericBeerClassification432_,
-    testPawilonyHeaderDetection432_,
-    testPawilonyMappingGuard432_,
-    testPawilonyTargetColumnRouting432_,
+    testVenueHeaderDetection432_,
+    testVenueMappingGuard432_,
+    testVenueTargetColumnRouting432_,
     testNewProductRowRollback432_,
     testSparseWritePlan432_,
     testSparseRollback432_,
@@ -72,7 +74,7 @@ function runAllEnterpriseTests() {
     testDirectFinalSparseWriteGuard461_,
     testXlsxExportWithoutDriveApi4313_,
     testRecoveryDictionaryContaminationGuard_,
-    testFormulaRepairHardDisabled436_,
+    testFormulaRepairClassifiedPlan514_,
     testFormulaRepairSegments432_,
     testFormulaRepairConcurrency432_,
     testFormulaConflictClassification432_,
@@ -1071,8 +1073,8 @@ function testLongestMatchZeroRC34_() {
 function ip34Assert_(condition, message) {
   if (!condition) throw new Error(message || 'Assertion failed');
 }
-/** Inventory PRO 4.3.4 — kontrakt układu i bezpieczeństwa PAWILONÓW. */
-function testPawilonyLayoutContract432_() {
+/** Inventory PRO — kontrakt układu i bezpieczeństwa bieżącego lokalu. */
+function testVenueLayoutContract432_() {
   Object.keys(CONFIG.INVENTORY_LAYOUT).forEach(type => {
     const expected = CONFIG.INVENTORY_LAYOUT[type];
     const actual = getInventorySummaryLayout_(type);
@@ -1091,7 +1093,7 @@ function testPawilonyLayoutContract432_() {
   });
 }
 
-function testPawilonyLocationMapping432_() {
+function testVenueLocationMapping432_() {
   const product = {
     type: CONFIG.PRODUCT_TYPES.LOCATION,
     category: 'SOFTY',
@@ -1117,7 +1119,7 @@ function testGenericBeerClassification432_() {
     'Słowo KEG w nazwie produktu spoza sekcji PIWO nie może zmienić układu na KEG.');
 }
 
-function testPawilonyHeaderDetection432_() {
+function testVenueHeaderDetection432_() {
   const normalHeader = [];
   normalHeader[inventoryColumnLetterToNumber_(CONFIG.INVENTORY_LAYOUT.NORMAL.grossWeight) - 1] = 'WAGA/SZT W BUTELCE / KEGU';
   normalHeader[inventoryColumnLetterToNumber_(CONFIG.INVENTORY_LAYOUT.NORMAL.fullUnits) - 1] = 'PEŁNE BTLK szt';
@@ -1132,7 +1134,7 @@ function testPawilonyHeaderDetection432_() {
     'Walidator nie może mylić produktu zawierającego kategorię z nagłówkiem.');
 }
 
-function testPawilonyMappingGuard432_() {
+function testVenueMappingGuard432_() {
   const normal = getInputColumnsForProductType_('NORMAL');
   const keg = getInputColumnsForProductType_('KEG');
   const location = getInputColumnsForProductType_('LOCATION');
@@ -1148,7 +1150,7 @@ function testPawilonyMappingGuard432_() {
     'Kolumna formuły nie może być wejściem NORMAL.');
 }
 
-function testPawilonyTargetColumnRouting432_() {
+function testVenueTargetColumnRouting432_() {
   const normalColumns = getInputColumnsForProductType_('NORMAL');
   const kegColumns = getInputColumnsForProductType_('KEG');
   const normal = {
@@ -1381,12 +1383,17 @@ function testFormulaContractFailClosed511_() {
     'Niezgodny układ formuł musi zostać zatrzymany przed pierwszym zapisem.');
 
   let repairBlocked = false;
+  const kegFormulaColumns = getFormulaColumnsForProductType_(CONFIG.PRODUCT_TYPES.KEG);
+  const forbiddenColumn = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').find(function(column) {
+    return kegFormulaColumns.indexOf(column) === -1;
+  });
   try {
     validateInventoryFormulaRepairPlanTargets_([{
       type: CONFIG.PRODUCT_TYPES.KEG,
-      a1: 'E215',
-      column: 'E',
-      columnNumber: 5
+      a1: forbiddenColumn + '215',
+      column: forbiddenColumn,
+      columnNumber: inventoryColumnLetterToNumber_(forbiddenColumn),
+      classification: 'INVALID_FORMULA'
     }]);
   } catch (error) {
     repairBlocked = true;

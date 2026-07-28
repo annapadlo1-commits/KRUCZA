@@ -1,5 +1,5 @@
 /**
- * Inventory PRO 4.3.4 — audyt kontraktu formuł PAWILONÓW.
+ * Inventory PRO — audyt kontraktu formuł bieżącego lokalu.
  *
  * Audytuje wyłącznie fizyczne wiersze produktów wykryte przez
  * scanInventoryProducts_(). Rozróżnia bezpiecznie spłaszczone wyniki od
@@ -397,7 +397,9 @@ function auditInventoryFormulaCoverage_(options) {
   logInfo(
     'FormulaAudit',
     'auditInventoryFormulaCoverage_',
-    audit.safe ? 'Kontrakt formuł PAWILONÓW jest kompletny.' : 'Wykryto problemy z formułami PAWILONÓW.',
+    audit.safe
+      ? 'Kontrakt formuł lokalu ' + CONFIG.LOCATION.NAME + ' jest kompletny.'
+      : 'Wykryto problemy z formułami lokalu ' + CONFIG.LOCATION.NAME + '.',
     {
       sheet: audit.sheetName,
       expected: audit.expectedFormulaCells,
@@ -450,12 +452,12 @@ function auditInventoryFormulaCoverageWithDialog() {
     function() {
       const audit = auditInventoryFormulaCoverage_();
       SpreadsheetApp.getUi().alert(
-        'Inventory PRO — audyt formuł PAWILONÓW',
+        'Inventory PRO — audyt formuł ' + CONFIG.LOCATION.NAME,
         formatInventoryFormulaAudit_(audit),
         SpreadsheetApp.getUi().ButtonSet.OK
       );
       return audit;
     },
-    'Nie udało się przeprowadzić audytu formuł PAWILONÓW.'
+    'Nie udało się przeprowadzić audytu formuł lokalu ' + CONFIG.LOCATION.NAME + '.'
   );
 }

@@ -274,7 +274,7 @@ function inferInventoryProductType_(sectionType, category, productName, rowValue
   if (normalizedCategory === 'piwo butelki' || normalizedCategory === 'softy') {
     return CONFIG.PRODUCT_TYPES.LOCATION;
   }
-  // W PAWILONACH słowo „KEG” może być częścią nazwy produktu liczonego
+  // W części konfiguracji słowo „KEG” może być częścią nazwy produktu liczonego
   // standardowo (np. wino 18 l). Typ zmienia wyłącznie fizyczna sekcja lub
   // awaryjna, ogólna sekcja PIWO.
   if (normalizedCategory === 'piwo' && (

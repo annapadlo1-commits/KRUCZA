@@ -4,10 +4,9 @@ const CONFIG = Object.freeze({
   LOCATION: Object.freeze({
     ID: 'KRUCZA',
     NAME: 'KRUCZA',
-    NUMBER: 2,
-    NEXT_LOCATION: 'PAWILONY'
+    NUMBER: 2
   }),
-  VERSION: '5.1.3-TRIGGER-SAFETY-KRUCZA',
+  VERSION: '5.1.4-RELEASE-GATE-KRUCZA',
   SHEETS: Object.freeze({
     INVENTORY: 'INWENTURA',
     DICTIONARY: 'SLOWNIK',
@@ -113,7 +112,7 @@ const CONFIG = Object.freeze({
     NUMERIC_TOLERANCE: 0.000000001,
     BLOCK_SETUP_ON_CONFLICT: true,
     CREATE_BACKUP_BEFORE_REPAIR: false,
-    AUTOMATIC_REPAIR_ENABLED: false
+    AUTOMATIC_REPAIR_ENABLED: true
   }),
 
   CACHE: Object.freeze({

@@ -1,5 +1,5 @@
 /**
- * Inventory PRO 4.3.4 — automatyczna konfiguracja produktów PAWILONÓW.
+ * Inventory PRO — automatyczna konfiguracja produktów bieżącego lokalu.
  * Mapowanie kolumn jest odczytywane z fizycznych nagłówków arkusza,
  * a CONFIG.INVENTORY_LAYOUT pozostaje bezpiecznym fallbackiem.
  */
@@ -7,7 +7,7 @@
 function rebuildProductConfiguration() {
   const ui = SpreadsheetApp.getUi();
   const response = ui.alert(
-    'Odbuduj konfigurację PAWILONÓW',
+    'Odbuduj konfigurację ' + CONFIG.LOCATION.NAME,
     'Skrypt wyczyści konfigurację w kolumnach D:L arkusza SŁOWNIK i zbuduje ją ponownie z arkusza ' +
       CONFIG.SHEETS.INVENTORY + '. Aliasy w A:B pozostaną bez zmian. Przed zmianą powstanie ukryta kopia SŁOWNIKA. Kontynuować?',
     ui.ButtonSet.YES_NO

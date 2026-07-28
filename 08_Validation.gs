@@ -1,5 +1,5 @@
 /**
- * Inventory PRO 4.3.4 — walidacja konfiguracji, układu i formuł PAWILONÓW.
+ * Inventory PRO — walidacja konfiguracji, układu i formuł bieżącego lokalu.
  */
 
 function validateEnterpriseConfiguration() {
@@ -107,10 +107,8 @@ function buildValidationReport_() {
         errors.push('Formuły: ' + formulaAudit.flattenedFormulaCells + ' spłaszczonych wyników.');
       }
       if (formulaAudit.legacyFormulaCells > 0) {
-        warnings.push(
-          'Formuły: ' + formulaAudit.legacyFormulaCells +
-          ' poprawnych sum starszego typu zostanie przy najbliższej bezpiecznej naprawie zamienionych na SUM().'
-        );
+        // Poprawne sumy starszego typu z operatorem + są równoważne
+        // kontraktowi i nie obniżają Application Health.
       }
       if (formulaAudit.invalidFormulaCells > 0) {
         errors.push('Formuły: ' + formulaAudit.invalidFormulaCells + ' nieprawidłowych wzorów.');

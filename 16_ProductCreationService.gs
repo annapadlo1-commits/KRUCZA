@@ -237,7 +237,7 @@ function resolveNewProductColumns_(reference, productType) {
     logWarning(
       'ProductCreationService',
       'resolveNewProductColumns_',
-      'Nie skopiowano nieprawidłowego mapowania produktu referencyjnego; użyto profilu PAWILONÓW.',
+      'Nie skopiowano nieprawidłowego mapowania produktu referencyjnego; użyto profilu lokalu ' + CONFIG.LOCATION.NAME + '.',
       { product: reference.name, errors: validation.errors }
     );
     return defaults;
@@ -455,7 +455,7 @@ function clearNewProductInputCells_(sheet, row, productType, columns) {
     if (!isDirectFinalColumn && !isAllowedInputColumnForProductType_(productType, normalizedColumn)) {
       throw new Error(
         'Kolumna ' + normalizedColumn + ' nie jest polem wejściowym typu ' + productType +
-        ' w profilu PAWILONÓW.'
+        ' w profilu lokalu ' + CONFIG.LOCATION.NAME + '.'
       );
     }
     if (isFormulaColumnForProductType_(productType, normalizedColumn)) {
