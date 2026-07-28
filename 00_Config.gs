@@ -6,7 +6,7 @@ const CONFIG = Object.freeze({
     NAME: 'KRUCZA',
     NUMBER: 2
   }),
-  VERSION: '5.2.1-AUDIO-PARALLEL-HOTFIX-KRUCZA',
+  VERSION: '5.3.0-SAFETY-UX-KRUCZA',
   SHEETS: Object.freeze({
     INVENTORY: 'INWENTURA',
     DICTIONARY: 'SLOWNIK',
