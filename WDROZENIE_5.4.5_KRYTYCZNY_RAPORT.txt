@@ -1,0 +1,23 @@
+INVENTORY PRO 5.4.5 — KRYTYCZNA NAPRAWA RAPORTU KOŃCOWEGO
+
+1. Wgraj kompletną paczkę właściwego lokalu i nadpisz WSZYSTKIE pliki projektu.
+2. Zapisz projekt Apps Script.
+3. Zamknij arkusz i otwórz go ponownie, aby odświeżyć menu i interfejs.
+4. Otwórz raport końcowy.
+5. Pod nagłówkiem musi być widoczna wersja:
+   - 5.4.5-FINAL-REPORT-RUNTIME-GUARD-KRUCZA albo
+   - 5.4.5-FINAL-REPORT-RUNTIME-GUARD-PAWILONY
+
+Jeżeli interfejs i serwer pochodzą z różnych wersji, raport wyświetli BŁĄD
+KRYTYCZNY i zablokuje eksport. Nie pokaże już fałszywego raportu z zerami.
+
+Weryfikacja na żywym arkuszu Kruczej przed wydaniem:
+- SŁOWNIK zawiera aktywne produkty.
+- Produkt DUPSKO istnieje jako NORMAL / WHISKY, kolumna sztuk F, kolumna wagi B.
+- INWENTURA zawiera jego wartości i formuły w wierszu 410.
+- układ Kruczej B/C/D/E/F/G/H/I jest zgodny z CONFIG.INVENTORY_LAYOUT.
+
+Wniosek diagnostyczny:
+ekran z 0 produktami pochodził z niespójnego lub częściowego wdrożenia, ponieważ
+silnik 5.4.4 miał już blokadę pustego raportu. W 5.4.5 zgodność jest sprawdzana
+dwustronnie przez podpis wydania oraz licznik aktywnego katalogu.

@@ -38,6 +38,14 @@ function getFinalReviewSources() {
 function getFinalReviewData(sourceSheetName) {
   const selectedSheet = resolveFinalReviewSheetName_(sourceSheetName);
   const snapshot = buildFinalInventorySnapshot_(selectedSheet);
+  const activeCatalogCount = buildProductCatalogUncached_().length;
+  if (activeCatalogCount > 0 && (!snapshot.items || !snapshot.items.length)) {
+    throw new Error(
+      'BŁĄD KRYTYCZNY RAPORTU: aktywny katalog zawiera ' + activeCatalogCount +
+      ' produktów, ale silnik raportu zwrócił 0 pozycji. ' +
+      'Nie wolno kontynuować eksportu. Wdróż kompletną paczkę ' + CONFIG.VERSION + '.'
+    );
+  }
   const session = ensureActiveInventorySession_();
   const reviewItems = snapshot.items.map(item => {
     const editableCells = buildEditableReviewCells_(item);
@@ -48,6 +56,13 @@ function getFinalReviewData(sourceSheetName) {
 
   return {
     version: CONFIG.VERSION,
+    releaseSignature: 'FINAL_REPORT_RUNTIME_GUARD_545',
+    diagnostics: {
+      activeCatalogCount: activeCatalogCount,
+      reportItemsCount: snapshot.items.length,
+      sourceLastRow: SpreadsheetApp.getActiveSpreadsheet()
+        .getSheetByName(selectedSheet).getLastRow()
+    },
     sourceSheetName: selectedSheet,
     isCurrentInventory: isConfiguredSheetName_(selectedSheet, CONFIG.SHEETS.INVENTORY),
     sessionId: session.id,
