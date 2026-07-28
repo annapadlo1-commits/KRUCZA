@@ -20,6 +20,17 @@ function runKruczaCoffeeDirectFinalTests4310() {
     );
   });
 
+  [
+    { name: 'Nazwa kawy z arkusza', inventoryRow: 562 },
+    { name: 'Inna pisownia kawy z arkusza', inventoryRow: 563 }
+  ].forEach(product => {
+    assertCondition_(
+      isDirectFinalInventoryProduct_(product) &&
+        getDirectFinalInventoryColumn_(product) === 'B',
+      'Stały wiersz kawy musi zachować kontrakt B-only niezależnie od wariantu nazwy.'
+    );
+  });
+
   const regularNormal = {
     name: 'Zwykły produkt',
     type: 'NORMAL',

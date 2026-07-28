@@ -6,7 +6,7 @@ const CONFIG = Object.freeze({
     NAME: 'KRUCZA',
     NUMBER: 2
   }),
-  VERSION: '5.3.0-SAFETY-UX-KRUCZA',
+  VERSION: '5.3.1-DIRECT-FINAL-HOTFIX-KRUCZA',
   SHEETS: Object.freeze({
     INVENTORY: 'INWENTURA',
     DICTIONARY: 'SLOWNIK',
@@ -48,8 +48,26 @@ const CONFIG = Object.freeze({
   }),
 
   DIRECT_FINAL_PRODUCTS: Object.freeze([
-    Object.freeze({ name: 'KAWA COFFELAB SANTOS 1KG', column: 'B', unit: 'szt.' }),
-    Object.freeze({ name: 'KAWA COFFELAB PRZELEW 0,5KG', column: 'B', unit: 'szt.' })
+    Object.freeze({
+      name: 'KAWA COFFEELAB SANTOS 1KG',
+      aliases: Object.freeze([
+        'KAWA COFFEELAB SANTOS 1KG', 'KAWA COFFELAB SANTOS 1KG',
+        'COFFEELAB SANTOS', 'COFFELAB SANTOS'
+      ]),
+      inventoryRow: 562,
+      column: 'B',
+      unit: 'szt.'
+    }),
+    Object.freeze({
+      name: 'KAWA COFFEELAB PRZELEW 0,5KG',
+      aliases: Object.freeze([
+        'KAWA COFFEELAB PRZELEW 0,5KG', 'KAWA COFFELAB PRZELEW 0,5KG',
+        'KAWA COFFEELAB PRZELEW 0.5KG', 'COFFEELAB PRZELEW', 'COFFELAB PRZELEW'
+      ]),
+      inventoryRow: 563,
+      column: 'B',
+      unit: 'szt.'
+    })
   ]),
 
   // Fizyczny układ zakładki „INWENTURA tajniak” w lokalu Krucza.
